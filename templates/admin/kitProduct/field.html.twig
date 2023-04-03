@@ -1,0 +1,122 @@
+{% extends '@!EasyAdmin/crud/index.html.twig' %}
+
+{% block table_body %}
+
+    {% for entity in entities %}
+
+        {% if entity.isAccessible %}
+
+            <tr data-id="{{ entity.primaryKeyValueAsString }}">
+
+                {# Button selct #}
+                {% if has_batch_actions %}
+                    <td class="batch-actions-selector">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input form-batch-checkbox" value="{{ entity.primaryKeyValue }}">
+                        </div>
+                    </td>
+                {% endif %}
+
+                {% set quantity = 0 %}
+                {% set required = 0 %}
+
+                {# Contenu des champs #}
+                {% for field in entity.fields %}
+
+                    {% if field.property == "product_quantity" %}
+                        {% set quantity = field.value %}
+                    {% endif %}
+
+                    {% if field.property == "product_quantity_required" %}
+                        {% set required = field.value %}
+                    {% endif %}
+
+                {% endfor %}
+
+                {% for field in entity.fields %}
+
+                    <td data-label="{{ field.label|trans|e('html_attr') }}" class="{{ field.property == sort_field_name ? 'sorted' }} text-{{ field.textAlign }} {{ field.cssClass }}" dir="{{ ea.i18n.textDirection }}">
+                        
+                        {% if field.property == "product_quantity" %}
+                            {% if quantity < required and quantity != 0 %}
+                                <span class="badge badge-danger">{{quantity}}</span>
+
+                            {% elseif quantity == required %}
+                                <span class="badge badge-warning">{{quantity}}</span>
+
+                            {% elseif quantity > required %}
+                                <span class="badge badge-success">{{quantity}}</span>
+
+                            {% elseif quantity == 0 %}
+                                <span class="badge badge-danger">STOCK VIDE</span>
+
+                            {% endif %}
+
+                        {% else %}
+                            {{ include(field.templatePath, { field: field, entity: entity }, with_context = false) }}
+                        
+                        {% endif %}
+                        
+                    </td>
+
+                {% endfor %}
+
+                
+
+                {# Button action #}
+                {% block entity_actions %}
+                    <td class="actions {{ ea.crud.showEntityActionsAsDropdown ? 'actions-as-dropdown' }}">
+                        {% if entity.actions.count > 0 %}
+                            {% if ea.crud.showEntityActionsAsDropdown %}
+                                <div class="dropdown dropdown-actions">
+                                    <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="21" width="21" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
+                                        </svg>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        {% for action in entity.actions %}
+                                            {{ include(action.templatePath, { action: action, entity: entity, isIncludedInDropdown: ea.crud.showEntityActionsAsDropdown }, with_context = false) }}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% else %}
+                                {% for action in entity.actions %}
+                                    {{ include(action.templatePath, { action: action, entity: entity, isIncludedInDropdown: ea.crud.showEntityActionsAsDropdown }, with_context = false) }}
+                                {% endfor %}
+                            {% endif %}
+                        {% endif %}
+                    </td>
+                {% endblock entity_actions %}
+
+            </tr>
+
+        {% endif %}
+        {% else %}
+
+            {% block table_body_empty %}
+                {% for i in 1..14 %}
+
+                    <tr class="empty-row">
+                        <td><span></span></td>
+                        <td><span></span></td>
+                        <td><span></span></td>
+                        <td><span></span></td>
+                        <td><span></span></td>
+                        <td><span></span></td>
+                    </tr>
+
+                    {% if 3 == loop.index %}
+                        <tr class="no-results">
+                            <td colspan="100">
+                                {{ t('datagrid.no_results', ea.i18n.translationParameters, 'EasyAdminBundle')|trans }}
+                            </td>
+                        </tr>
+                    {% endif %}
+
+                {% endfor %}
+            {% endblock table_body_empty %}
+
+    {% endfor %}
+
+{% endblock %}

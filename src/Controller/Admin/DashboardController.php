@@ -2,34 +2,30 @@
 
 namespace App\Controller\Admin;
 
-use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
-use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+use App\Entity\Kit;
+use App\Entity\Team;
+use App\Entity\User;
+use App\Entity\Order;
+use App\Entity\Product;
+use App\Entity\Category;
+use App\Entity\KitProduct;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
 class DashboardController extends AbstractDashboardController
 {
+
+    public function __construct(private AdminUrlGenerator $adminUrlGenerator){}
+
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
-        return parent::index();
-
-        // Option 1. You can make your dashboard redirect to some common page of your backend
-        //
-        // $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
-        // return $this->redirect($adminUrlGenerator->setController(OneOfYourCrudController::class)->generateUrl());
-
-        // Option 2. You can make your dashboard redirect to different pages depending on the user
-        //
-        // if ('jane' === $this->getUser()->getUsername()) {
-        //     return $this->redirect('...');
-        // }
-
-        // Option 3. You can render some custom template to display a proper dashboard with widgets, etc.
-        // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
-        //
-        // return $this->render('some/path/my-dashboard.html.twig');
+        $url = $this->adminUrlGenerator->setController(KitCrudController::class)->generateUrl();
+        return $this->redirect($url);
     }
 
     public function configureDashboard(): Dashboard
@@ -40,7 +36,27 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
+        yield MenuItem::linkToDashboard('Accueil', 'fa-solid fa-truck-medical');
+
+        yield MenuItem::section('MES ÉQUIPES');
+            yield MenuItem::linkToCrud('Équipes', 'fa-solid fa-people-group', Team::class);
+
+        yield MenuItem::section('MES LOTS');
+            yield MenuItem::linkToCrud('Lots', 'fa-solid fa-suitcase-medical', Kit::class);
+            yield MenuItem::linkToCrud('Contenu des lots', 'fa-solid fa-list-ul', KitProduct::class);
+
+        yield MenuItem::section('MATÉRIELS ET CATÉGORIES');
+            yield MenuItem::linkToCrud('Catégories', 'fa-solid fa-list-ul', Category::class);
+            // yield MenuItem::linkToCrud('Créer une catégorie', 'fa-solid fa-plus', Category::class)->setAction(Crud::PAGE_NEW);
+            yield MenuItem::linkToCrud('Matériels', 'fa-solid fa-stethoscope', Product::class);
+            // yield MenuItem::linkToCrud('Créer un produit', 'fa-solid fa-plus', Product::class)->setAction(Crud::PAGE_NEW);
+
+        yield MenuItem::section('MES UTILISATEURS');
+            yield MenuItem::linkToCrud('Comptes', 'fa-solid fa-user', User::class);
+            // yield MenuItem::linkToCrud('Créer un compte', 'fa-solid fa-user-plus', User::class)->setAction(Crud::PAGE_NEW);
+
+        yield MenuItem::section('COMMANDES');
+            yield MenuItem::linkToCrud('Liste des commandes', 'fa-solid fa-list-check', Order::class);
+
     }
 }

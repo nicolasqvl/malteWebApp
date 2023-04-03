@@ -3,6 +3,13 @@
 namespace App\Controller\Admin;
 
 use App\Entity\KitProduct;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class KitProductCrudController extends AbstractCrudController
@@ -12,14 +19,57 @@ class KitProductCrudController extends AbstractCrudController
         return KitProduct::class;
     }
 
-    /*
+    // ----- Configuration to informations display
     public function configureFields(string $pageName): iterable
     {
-        return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
-        ];
+        yield TextField::new('kit', 'Lot')
+            ->hideOnForm();
+        yield AssociationField::new('kit', 'Lot')
+            ->hideOnIndex();
+        yield TextField::new('product', 'Matériel')
+            ->hideOnForm();
+        yield AssociationField::new('product', 'Matériel')
+            ->hideOnIndex();
+        yield IntegerField::new('product_quantity', 'Quantité');
+        yield IntegerField::new('product_quantity_required', 'Quantité requise');
     }
-    */
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setEntityLabelInSingular('un lot')
+            ->setEntityLabelInPlural('Contenu des lots')
+            // Delete list of actions in index page
+            ->showEntityActionsInlined()
+            ->overrideTemplate('crud/index', 'admin/kitProduct/field.html.twig')
+            // Customization of detail's title
+            ->setPageTitle('edit', fn ( KitProduct $kitProduct) => sprintf('Modifier le contenu du lot : <b>%s</b>', $kitProduct->getKit()));
+    }
+
+    // ----- Customization of actions icons and create button
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions
+            ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action) {
+                return $action
+                    ->setIcon('fa-solid fa-pencil')
+                    ->setLabel(false);
+            })
+            ->update(Crud::PAGE_INDEX, Action::DELETE, function (Action $action) {
+                return $action
+                    ->setIcon('fa-solid fa-trash-can')
+                    ->setLabel(false);
+            })
+            ->update(Crud::PAGE_INDEX, Action::NEW, function (Action $action) {
+                return $action
+                    ->setLabel('Ajouter dans un lot');
+            });
+    }
+
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+            ->add('kit', 'Lot')
+            ->add('product', 'Matériel');
+    }
 }

@@ -12,6 +12,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -29,7 +30,8 @@ class UserCrudController extends AbstractCrudController
             yield TextField::new('username', 'Nom');
             yield EmailField::new('email', 'E-mail');
             yield TextField::new('password', 'Mot de passe')
-                ->hideOnIndex();
+                ->hideOnIndex()
+                ->setFormType(PasswordType::class);
 
     }
 

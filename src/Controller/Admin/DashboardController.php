@@ -31,12 +31,13 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('MalteWebApp');
+            ->setTitle('MalteWebApp')
+            ->disableDarkMode();
     }
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Accueil', 'fa-solid fa-truck-medical');
+        yield MenuItem::linkToRoute('Accueil', 'fa-solid fa-truck-medical', 'homepage');
 
         yield MenuItem::section('MES ÉQUIPES');
             yield MenuItem::linkToCrud('Équipes', 'fa-solid fa-people-group', Team::class);

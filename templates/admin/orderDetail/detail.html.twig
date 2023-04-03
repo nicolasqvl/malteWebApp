@@ -1,0 +1,27 @@
+{% if ea.crud.currentAction == 'detail' %}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Produit</th>
+            <th scope="col">Quantité</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for productUsed in field.value %}
+            <tr>
+                <td>
+                    <span class="badge badge-primary">{{productUsed.product}}</span>
+                </td>
+                <td>
+                    <span class="badge badge-danger">{{productUsed.quantity}}</span>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% else %}
+    <span class="badge badge-secondary">{{ field.value|length }}</span>
+{% endif %}
+

@@ -19,6 +19,18 @@ class KitProduct
     #[ORM\Column]
     private ?int $productQuantityRequired = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Unit $unit = null;
+
+    #[ORM\ManyToOne(inversedBy: 'kitProducts')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Product $product = null;
+
+    #[ORM\ManyToOne(inversedBy: 'kitProducts')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Kit $kit = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,6 +56,42 @@ class KitProduct
     public function setProductQuantityRequired(int $productQuantityRequired): self
     {
         $this->productQuantityRequired = $productQuantityRequired;
+
+        return $this;
+    }
+
+    public function getUnit(): ?Unit
+    {
+        return $this->unit;
+    }
+
+    public function setUnit(?Unit $unit): self
+    {
+        $this->unit = $unit;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    public function getKit(): ?Kit
+    {
+        return $this->kit;
+    }
+
+    public function setKit(?Kit $kit): self
+    {
+        $this->kit = $kit;
 
         return $this;
     }

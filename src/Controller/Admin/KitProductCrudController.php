@@ -31,7 +31,11 @@ class KitProductCrudController extends AbstractCrudController
         yield TextField::new('kit', 'Lot')
             ->hideOnForm();
         yield AssociationField::new('kit', 'Lot')
-            ->hideOnIndex();
+            ->hideOnIndex()
+            // Only display in form kit of the same unit as the admin
+            ->setQueryBuilder(function ($queryBuilder) {
+                return $queryBuilder->andWhere('entity.unit = :connectedUser')->setParameter('connectedUser', $this->getUser()->getUnit());
+            });
         yield TextField::new('product', 'Matériel')
             ->hideOnForm();
         yield AssociationField::new('product', 'Matériel')

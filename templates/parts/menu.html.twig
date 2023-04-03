@@ -1,0 +1,50 @@
+<nav class="navbar navbar-expand-lg p-3 mb-3 ">
+	<div class="container-fluid">
+
+		<img class="logo" id="navbar-logo" src="{{asset("build/images/logo-odm-white.svg")}}" alt="Logo de l'Ordre de Malte">
+
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<img class="menu-toggle" width="30px" src="{{asset("build/images/toggle_icon.svg")}}" alt="Icon menu toggle">
+		</button>
+
+		<div class="collapse navbar-collapse flex-row-reverse" id="navbarSupportedContent">
+			<ul class="navbar-nav mt-3 mt-lg-0">
+
+				{% for menu in listMenu %}
+
+					{% if app.user and (menu.user is not defined or menu.user is same as (true)) %}
+
+						{% if menu.title == "Cart" %}
+							<li class="nav-item text-end">
+								<a class="link {% if loop.index == 1 %} active {% endif %}" href="{{menu.url}}" title="{{menu.title}}">{{menu.text}}
+									<span class="badge badge-cart">
+										{% if app.session.get('cart') is not null %}
+											{{app.session.get('cart')|length}}{% else %}0
+										{% endif %}
+									</span>
+								</a>
+							</li>
+						{% else %}
+							<li class="nav-item text-end">
+								<a class="link {% if loop.index == 1 %} active {% endif %}" href="{{menu.url}}" title="{{menu.title}}">{{menu.text}}</a>
+							</li>
+						{% endif %}
+
+					{% elseif app.user is null and (menu.user is not defined or menu.user is same as (false))%}
+						<li class="nav-item text-end">
+							<a class="link {% if loop.index == 1 %} active {% endif %}" href="{{menu.url}}" title="{{menu.title}}">{{menu.text}}</a>
+						</li>
+					{% endif %}
+
+				{% endfor %}
+
+				{% if is_granted('ROLE_ADMIN')or is_granted('ROLE_SUPER_ADMIN')%}
+					<li class="nav-item text-end">
+						<a href="{{path('admin')}}" class="link ">TABLEAU DE BORD</a>
+					</li>
+				{% endif %}
+			</ul>
+		</div>
+	</div>
+
+</nav>

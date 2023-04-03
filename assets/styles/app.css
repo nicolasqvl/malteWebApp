@@ -7,3 +7,14 @@ body {
     max-width: 400px;
     padding: 15px;
 }
+
+.navbar{
+    background-image: url("../images/background-menu.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.link{
+    text-decoration: none;
+    color: white; 
+}

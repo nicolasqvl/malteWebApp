@@ -27,7 +27,7 @@ class TeamCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
             yield TextField::new('name', 'Nom');
-            yield AssociationField::new('kit', 'Lot affecté')
+            yield AssociationField::new('kits', 'Lot affecté')
                 ->hideOnIndex();
             yield TextField::new('kit', 'Lot affecté')
                 ->hideOnForm();

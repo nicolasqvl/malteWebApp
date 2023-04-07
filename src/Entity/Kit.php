@@ -37,6 +37,9 @@ class Kit
     #[ORM\ManyToOne(inversedBy: 'kits')]
     private ?Team $team = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $qrName = null;
+
     public function __construct()
     {
         $this->kitProducts = new ArrayCollection();
@@ -169,6 +172,18 @@ class Kit
     public function setTeam(?Team $team): self
     {
         $this->team = $team;
+
+        return $this;
+    }
+
+    public function getQrName(): ?string
+    {
+        return $this->qrName;
+    }
+
+    public function setQrName(string $qrName): self
+    {
+        $this->qrName = $qrName;
 
         return $this;
     }

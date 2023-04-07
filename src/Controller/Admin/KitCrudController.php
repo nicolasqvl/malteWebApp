@@ -16,9 +16,16 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 
 class KitCrudController extends AbstractCrudController
 {
+
+    public function __construct(private string $uploadDir)
+    {
+        
+    }
+
     public static function getEntityFqcn(): string
     {
         return Kit::class;
@@ -29,6 +36,9 @@ class KitCrudController extends AbstractCrudController
     {
             yield TextField::new('name', 'Nom');
             yield AssociationField::new('team', 'Affectation');
+            yield ImageField::new('qrName', 'Qr-Code')
+                ->setBasePath($this->uploadDir)
+                ->hideOnForm();
             yield BooleanField::new('active', 'État opérationnel');
 
     }
@@ -66,10 +76,12 @@ class KitCrudController extends AbstractCrudController
         if(!$entityInstance instanceof Kit) return;
 
         $connectedUser = $this->getUser()->getUnit();
+        $kitName = $entityInstance->getName();
+
         $entityInstance->setUnit($connectedUser);
+        $entityInstance->setQrName("{$kitName}.png");
         $em->persist($entityInstance);
         $em->flush();
-
     }
 
     // Only display kit of the same unit as the admin

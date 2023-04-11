@@ -2,10 +2,13 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\KitProductRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: KitProductRepository::class)]
+#[UniqueEntity(fields: ['product', 'kit'], message: 'Ce produit existe déjà dans le lot!')]
 class KitProduct
 {
     #[ORM\Id]
@@ -29,6 +32,7 @@ class KitProduct
 
     #[ORM\ManyToOne(inversedBy: 'kitProducts')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank(message:"Veuillez choisir un lot!")]
     private ?Kit $kit = null;
 
     public function getId(): ?int

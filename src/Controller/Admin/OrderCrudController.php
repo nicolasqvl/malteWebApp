@@ -27,12 +27,12 @@ class OrderCrudController extends AbstractCrudController
     // ----- Configuration to informations display
     public function configureFields(string $pageName): iterable
     {
-        yield TextField::new('reference_number', 'N° référence')
+        yield TextField::new('order_number', 'N° référence')
             ->hideOnDetail();
         yield DateTimeField::new('date', 'Date')
             ->hideOnDetail();
         yield TextField::new('kit', 'Lot');
-        yield CollectionField::new('detailProductUseds', 'Matériel(s)')
+        yield CollectionField::new('orderDetails', 'Matériel(s)')
             ->setTemplatePath('admin/orderDetail/detail.html.twig');
         yield TextField::new('declarer_name', 'Nom du déclarant')
             ->hideOnDetail();
@@ -45,8 +45,8 @@ class OrderCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular('un lot')
-            ->setEntityLabelInPlural('Lots')
+            ->setEntityLabelInSingular('une commande')
+            ->setEntityLabelInPlural('Commandes')
             ->setDefaultSort(['state'=>'asc', 'date'=>'asc'])
             // Delete list of actions in index page
             ->showEntityActionsInlined()
@@ -58,6 +58,7 @@ class OrderCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
         return $actions
+            ->disable(Action::NEW)
             ->remove(Crud::PAGE_INDEX, Action::EDIT)
             ->remove(Crud::PAGE_DETAIL, Action::EDIT)
             ->add(Crud::PAGE_INDEX, Action::DETAIL)

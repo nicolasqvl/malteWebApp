@@ -2,12 +2,15 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\KitRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: KitRepository::class)]
+// #[UniqueEntity(fields: ['name'], message: 'Ce nom est déjà utilisé!')]
 class Kit
 {
     #[ORM\Id]
@@ -16,6 +19,7 @@ class Kit
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:"Veuillez donner un nom à votre futur lot!")]
     private ?string $name = null;
 
     #[ORM\Column]
@@ -35,6 +39,7 @@ class Kit
     private Collection $orders;
 
     #[ORM\ManyToOne(inversedBy: 'kits')]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Team $team = null;
 
     #[ORM\Column(length: 255)]

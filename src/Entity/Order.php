@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\OrderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -20,13 +21,15 @@ class Order
     #[ORM\Column(length: 255)]
     private ?string $orderNumber = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, options: ['default' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:"Nom et prénom obligatoires")]
     private ?string $declarerName = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:"Numéro de téléphone obligatoire")]
     private ?string $declarerPhone = null;
 
     #[ORM\Column]
@@ -37,10 +40,12 @@ class Order
 
     #[ORM\ManyToOne(inversedBy: 'orders')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank(message:"Choix du lot obligatoire")]
     private ?Kit $kit = null;
 
     public function __construct()
     {
+        $this->date = new \DateTime();
         $this->orderDetails = new ArrayCollection();
     }
 

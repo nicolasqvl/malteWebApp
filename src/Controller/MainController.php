@@ -21,8 +21,8 @@ class MainController extends AbstractController
         $listMenu = [
             ['title'=> "Homepage", "text"=>'ACCUEIL', "url"=> $this->generateUrl('homepage')],
             ['title'=> "SignIn", "text"=>'CONNEXION', "url"=> $this->generateUrl('app_login'), "user"=>false],
-            // ['title'=> "Product", "text"=>'PRODUITS', "url"=> $this->generateUrl('app_product'), "user"=>true],
-            // ['title'=> "Cart", "text"=>'PANIER', "url"=> $this->generateUrl('app_cart'), "user"=>true],
+            ['title'=> "Product", "text"=>'PRODUITS', "url"=> $this->generateUrl('app_product'), "user"=>true],
+            ['title'=> "Cart", "text"=>'PANIER', "url"=> $this->generateUrl('app_cart'), "user"=>true],
             ['title'=> "SignOut", "text"=>'DÉCONNEXION', "url"=> $this->generateUrl('app_logout'), "user"=>true],
         ];
 

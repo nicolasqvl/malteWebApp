@@ -39,6 +39,17 @@ class KitProductRepository extends ServiceEntityRepository
         }
     }
 
+    public function findSameProductOfCart($containerChoised, $productInCart)
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.kit = :kit')
+            ->andwhere('c.product = :product')
+            ->setParameters(['product' => $productInCart, 'kit' => $containerChoised])
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return KitProduct[] Returns an array of KitProduct objects
 //     */

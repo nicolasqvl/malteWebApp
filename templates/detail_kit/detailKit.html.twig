@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DetailKitController!{% endblock %}
+
+{% block body %}
+
+<div class="detailKit text-center w-100 m-auto">
+    <div>
+        <h2>NOM DU LOT</h2>
+        <p class="badge text-bg-danger">{{kit.name}}</p>
+    </div>
+
+    <div>
+        <h2>IDENTIFIANT</h2>
+        <p class="badge text-bg-danger">{{kit.id}}</p>
+    </div>
+
+    <div>
+        <h2>UNITÉ D'ORIGINE</h2>
+        <p class="badge text-bg-danger">{{kit.originalUnit}}</p>
+    </div>
+
+    <div>
+        <h2>AFFECTATION</h2>
+        <p class="badge text-bg-danger">{{kit.team}}</p>
+    </div>
+
+        <a href="{{path('app_product')}}" class="w-100 btn btn btn-outline-danger">DÉCLARER DU MATÉRIEL UTILISÉ</a>
+</div>
+{% endblock %}

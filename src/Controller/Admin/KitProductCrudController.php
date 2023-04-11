@@ -53,7 +53,9 @@ class KitProductCrudController extends AbstractCrudController
             ->showEntityActionsInlined()
             ->overrideTemplate('crud/index', 'admin/kitProduct/field.html.twig')
             // Customization of detail's title
-            ->setPageTitle('edit', fn ( KitProduct $kitProduct) => sprintf('Modifier le contenu du lot : <b>%s</b>', $kitProduct->getKit()));
+            ->setPageTitle('edit', fn ( KitProduct $kitProduct) => sprintf('Modifier le contenu du lot : <b>%s</b>', $kitProduct->getKit()))
+            // Customization of create's title
+            ->setPageTitle('new', 'Ajouter du contenu dans un lot');
     }
 
     // ----- Customization of actions icons and create button

@@ -32,6 +32,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         ];
     }
 
+    // QR-CODE funtion
     public function createQrcode(AfterEntityPersistedEvent $event)
     {
 

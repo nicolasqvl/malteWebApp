@@ -25,6 +25,10 @@ html{
     color: white; 
 }
 
+.link:hover{
+    color: white;
+}
+
 .navbar-toggler{
     box-shadow: none;
     border:none;
@@ -54,7 +58,7 @@ html{
 
 .cart-link:hover{
     text-decoration: none;
-    color: rgb(143, 143, 143);
+    color: black;
 }
 
 @media only screen and (min-width: 920px) {

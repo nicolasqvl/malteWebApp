@@ -40,9 +40,7 @@ class ProductRepository extends ServiceEntityRepository
     }
 
     public function findAllAndFiltered($filters = null){
-
         $query = $this->createQueryBuilder('p');
-
         if($filters !== null){
             $query
                 ->where('p.category IN(:categories)')

@@ -96,7 +96,7 @@ class CartController extends AbstractController
                 $this->addFlash('valided_cart', 'Votre panier a été validé !');
                 return $this->redirectToRoute('app_product');
 
-            } elseif (isset($dataCart)) {
+            } elseif (empty($dataCart)) {
                 // If cart is empty
                 $this->addFlash('emptyCrat', 'Vous ne pouvez pas envoyer un panier vide');
             }

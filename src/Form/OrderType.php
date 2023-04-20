@@ -22,8 +22,8 @@ class OrderType extends AbstractType
 
         $builder
             ->add('kit', EntityType::class, [
-                'label' => 'Choisissez le lot *',
-                'required' => false,
+                'label' => 'Lot concerné',
+                'required' => true,
                 'class' => Kit::class,
                 // Request to display kit of Qr-code
                 'query_builder' => function (KitRepository $kitRepository) use ($kitId, $user){
@@ -35,15 +35,15 @@ class OrderType extends AbstractType
                 }
             ])
             ->add('declarer_name', TextType::class, [
-                'label' => 'Nom du déclarant *',
-                'required' => false,
+                'label' => 'Nom et prénom',
+                'required' => true,
                 'attr' => [
                     'placeholder' => 'Indiquez votre identité'
                 ]
             ])
             ->add('declarer_phone', TelType::class, [
-                'label' => 'Numéro de téléphone *',
-                'required' => false,
+                'label' => 'Numéro de téléphone',
+                'required' => true,
                 'attr' => [
                     'placeholder' => '+33'
                 ]

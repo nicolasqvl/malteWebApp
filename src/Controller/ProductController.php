@@ -5,24 +5,39 @@ namespace App\Controller;
 use App\Entity\Product;
 use App\Form\SearchProductType;
 use App\Repository\ProductRepository;
+use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ProductController extends AbstractController
 {
     #[Route('/product', name: 'app_product')]
-    public function index(ProductRepository $productRepository, Request $request, SessionInterface $session): Response
+    public function index(CategoryRepository $categoryRepository, ProductRepository $productRepository, Request $request, SessionInterface $session): Response
     {
 
-        // ----- Search Bar in Product Page -----
-        $search = new Product();
-        $form = $this->createForm(SearchProductType::class, $search);
-        $form->handleRequest($request);
+        $filters = $request->get("categories");
 
-        $products = $productRepository->findProductByName($search);
+        $products = $productRepository->findAllAndFiltered($filters);
+
+        $categories = $categoryRepository->findAll();
+
+        if($request->get('ajax')){
+            return new JsonResponse([
+                'content' => $this->renderView('product/content.html.twig', [
+                    'products' => $products
+                ])]);
+        }
+        
+        // ----- Search Bar in Product Page -----
+        // $search = new Product();
+        // $form = $this->createForm(SearchProductType::class, $search);
+        // $form->handleRequest($request);
+
+        // $products = $productRepository->findProductByName($search);
 
         // ----- Send selected product in session with choiced quantity -----
         if($request->request->get('add')){
@@ -51,9 +66,10 @@ class ProductController extends AbstractController
         }
 
         return $this->render('product/product.html.twig', [
-            'search' => $search,
+            // 'search' => $search,
             'products' => $products,
-            'form' => $form->createView()
+            'categories' => $categories,
+            // 'form' => $form->createView()
         ]);
     }
 }

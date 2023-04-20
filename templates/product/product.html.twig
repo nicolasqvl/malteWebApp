@@ -1,65 +1,68 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProductController!{% endblock %}
+{% block title %}Hello ProductController!
+{% endblock %}
 
 {% block body %}
-<div class="container">
 
-    {% for flashMessage in app.flashes('info') %}
-        <div class="alert alert-info text-center">
-            {{flashMessage}}
-            <a href="{{path('app_cart')}}" class="alert-link">panier</a>
-        </div>
-    {% endfor %}
+	<div class="container-fluid">
+		<div class="row d-flex justify-content-center">
 
-    {% for flashMessage in app.flashes('valided_cart') %}
-        <div class="alert alert-success text-center">
-            {{flashMessage}}
-        </div>
-    {% endfor %}
+            {# ----- Filters ----- #}
+			<div class="col-lg-2 col-md-10 my-lg-4">
+                <h2 class="filtersTitle m-0">Catégories</h2>
+				<form class="filtersForm border border-top-0 pt-3 px-3 mb-3" id="filters">
+					{% for category in categories %}
+						<p class="filtersCategories">
+							<input type="checkbox" name="categories[]" id="cat{{category.id}}" value="{{category.id}}">
+							<label for="cat{{category.id}}">{{category.name}}</label>
+						</p>
+					{% endfor %}
+				</form>
+			</div>
 
-    {# ----- Search bar ----- #}
-    <div class="row d-flex justify-content-center">
-        <div class="col-11 col-lg-4">
-            {{form_start(form)}}
-                <div class="input-group mb-3">
-                    <span class="input-group-text">
-                        <img src="{{asset("build/images/magnifying_glass.png")}}" alt="Icon de loupe" width="20px">
-                    </span>
-                    {{form_widget(form.name, {'attr': {'class': 'form-control-search'}})}}
-                </div>
-            {{form_end(form)}}
-        </div>
-    </div>
+            <div class="col-lg-10">
 
-    {# ----- Product display ----- #}
-    <div class="row d-flex justify-content-center">
-
-        {% for product in products %}
-            <div class="col-12 col-md-8 col-lg-4">
-                <div class="card card-product my-4">
-                    <div class="card-body text-center">
-                        <form method="post">
-                            <div class="my-3 justify-content-center">
-                                <h6 class="mb-6">{{product.name}}</h6>
-                                <div class="d-flex justify-content-center">
-                                    <div>
-                                        <input type="number" name="quantity" id="quantity" value="1" class="form-control" min="1" max="20">
-                                        <input type="hidden" name="product" value="{{product.id}}">
-                                        <input type="hidden" name="productName" value="{{product.name}}">
-                                    </div>
-                                    <div class="ms-4 p-0">
-                                        <input type="submit" value="Ajouter au panier" name="add" class="btn btn btn-outline-danger me-5">
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
+                {% for flashMessage in app.flashes('info') %}
+                    <div class="alert alert-info text-center mx-lg-5">
+                        {{flashMessage}}
+                        <a href="{{path('app_cart')}}" class="alert-link">panier</a>
                     </div>
+                {% endfor %}
+
+                {% for flashMessage in app.flashes('valided_cart') %}
+                    <div class="alert alert-success text-center">
+                        {{flashMessage}}
+                    </div>
+                {% endfor %}
+
+                {# ----- Search bar ----- #}
+                {# <div class="row d-flex justify-content-center">
+                                                <div class="col-11 col-lg-4">
+                                                    {{form_start(form)}}
+                                                        <div class="input-group mb-3">
+                                                            <span class="input-group-text">
+                                                                <img src="{{asset("build/images/magnifying_glass.png")}}" alt="Icon de loupe" width="20px">
+                                                            </span>
+                                                            {{form_widget(form.name, {'attr': {'class': 'form-control-search'}})}}
+                                                        </div>
+                                                    {{form_end(form)}}
+                                                </div>
+                                            </div> #}
+
+                {# ----- Product display ----- #}
+                <div class="row d-flex justify-content-center px-lg-5" id="content">
+                    {% include "product/content.html.twig" %}
                 </div>
+
             </div>
-        {% endfor %}
 
-    </div>
+		</div>
+	</div>
 
-</div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+	<script src="{{ asset('js/filters.js') }}"></script>
 {% endblock %}

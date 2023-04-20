@@ -1,0 +1,24 @@
+{% for product in products %}
+	<div class="col-12 col-md-10 col-lg-4">
+		<div class="card card-product my-4">
+			<div class="card-body text-center">
+				<form method="post">
+					<div class="my-3 justify-content-center">
+						<h6 class="mb-6">{{product.name}}</h6>
+						<div class="d-flex justify-content-center">
+							<div>
+								<input type="number" name="quantity" id="quantity" value="1" class="form-control" min="1" max="20">
+								<input type="hidden" name="product" value="{{product.id}}">
+								<input type="hidden" name="productName" value="{{product.name}}">
+							</div>
+							<div class="ms-4 p-0">
+								<input type="submit" value="Ajouter au panier" name="add" class="btn btn btn-outline-danger me-5">
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endfor %}
+

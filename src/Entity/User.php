@@ -24,6 +24,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = [];
 
     /**
+     * @var string
+     */
+    private $plainPassword;
+
+    /**
      * @var string The hashed password
      */
     #[ORM\Column]
@@ -140,6 +145,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUnit(?Unit $unit): self
     {
         $this->unit = $unit;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of plainPassword
+     *
+     * @return  string
+     */ 
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * Set the value of plainPassword
+     *
+     * @param  string  $plainPassword
+     *
+     * @return  self
+     */ 
+    public function setPlainPassword(string $plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
 
         return $this;
     }

@@ -39,21 +39,36 @@ class ProductRepository extends ServiceEntityRepository
         }
     }
 
-    // SearchBar 
-    public function findProductByName($search)
-    {
-        $qb = $this->createQueryBuilder('p');
- 
-        if(!empty($search->getName())){
-            $qb = $qb
-            ->andWhere('p.name like :search')
-            ->setParameter('search', '%'.$search->getName().'%');
+    public function findAllAndFiltered($filters = null){
+        $query = $this->createQueryBuilder('p');
+        if($filters !== null){
+            $query
+                ->where('p.category IN(:categories)')
+                ->setParameter(':categories', array_values($filters));
         }
- 
-        $qb->orderBy('p.name', 'ASC');
-    
-        return $qb->getQuery()->getResult();
+
+        $query->orderBy('p.name', 'ASC');
+
+        return $query->getQuery()->getResult();
+
+
     }
+
+    // SearchBar 
+    // public function findProductByName($search)
+    // {
+    //     $qb = $this->createQueryBuilder('p');
+ 
+    //     if(!empty($search->getName())){
+    //         $qb = $qb
+    //         ->andWhere('p.name like :search')
+    //         ->setParameter('search', '%'.$search->getName().'%');
+    //     }
+ 
+    //     $qb->orderBy('p.name', 'ASC');
+    
+    //     return $qb->getQuery()->getResult();
+    // }
 
 //    /**
 //     * @return Product[] Returns an array of Product objects

@@ -11,6 +11,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
@@ -27,10 +28,9 @@ class TeamCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
             yield TextField::new('name', 'Nom');
-            yield AssociationField::new('kits', 'Lot affecté')
-                ->hideOnIndex();
-            yield TextField::new('kit', 'Lot affecté')
+            yield CollectionField::new('kits', 'Lots affectés')
                 ->hideOnForm();
+
 
     }
 

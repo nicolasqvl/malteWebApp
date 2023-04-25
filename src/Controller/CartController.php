@@ -61,7 +61,13 @@ class CartController extends AbstractController
                     $quantityInCart = $ligneDetail->getQuantity();
 
                     // Fetch container ID from cart
+                    if(is_null($declaration->getKit())){
+                        $this->addFlash('invalided_kit', 'Attention, vous n\'avez scanné aucun lot ou vous tentez de scanner un lot qui n\'appartient pas à votre unité!');
+                        return $this->redirectToRoute('app_cart');
+                    }
+
                     $containerChoised = $declaration->getKit()->getId();
+
                     // Fetch containerProduct with same container ID from cart
                     $containerProduct = $kitProductRepository->findSameProductOfCart($containerChoised, $productInCart);
 

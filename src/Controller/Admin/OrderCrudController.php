@@ -39,7 +39,8 @@ class OrderCrudController extends AbstractCrudController
         yield TextField::new('declarer_phone', 'Téléphone du déclarant')
             ->hideOnDetail();
         yield BooleanField::new('state', 'État')
-            ->hideOnDetail();
+            //->hideOnDetail()
+            ->renderAsSwitch(false);
     }
 
     public function configureCrud(Crud $crud): Crud

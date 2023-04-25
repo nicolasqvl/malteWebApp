@@ -49,6 +49,8 @@ class TeamCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
         return $actions
+            ->add(Crud::PAGE_EDIT, Action::INDEX)
+            ->add(Crud::PAGE_NEW, Action::INDEX)
             ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action){
                 return $action
                     ->setIcon('fa-solid fa-pencil')

@@ -40,8 +40,11 @@ class KitProductCrudController extends AbstractCrudController
             ->hideOnForm();
         yield AssociationField::new('product', 'Matériel')
             ->hideOnIndex();
-        yield IntegerField::new('product_quantity', 'Quantité');
-        yield IntegerField::new('product_quantity_required', 'Quantité requise');
+        yield IntegerField::new('product_quantity', 'Quantité')
+            ->setRequired(true)
+            ->setNumberFormat("#;");
+        yield IntegerField::new('product_quantity_required', 'Quantité requise')
+            ->setRequired(true);
     }
 
     public function configureCrud(Crud $crud): Crud
@@ -62,6 +65,8 @@ class KitProductCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
         return $actions
+            ->add(Crud::PAGE_EDIT, Action::INDEX)
+            ->add(Crud::PAGE_NEW, Action::INDEX)
             ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action) {
                 return $action
                     ->setIcon('fa-solid fa-pencil')

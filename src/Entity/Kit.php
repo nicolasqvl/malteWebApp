@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: KitRepository::class)]
-// #[UniqueEntity(fields: ['name'], message: 'Ce nom est déjà utilisé!')]
+#[UniqueEntity(fields: ['name'], message: 'Ce nom est déjà utilisé!')]
 class Kit
 {
     #[ORM\Id]

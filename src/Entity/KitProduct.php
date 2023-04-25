@@ -16,10 +16,12 @@ class KitProduct
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: false)]
+    #[Assert\GreaterThan(0, message: 'La quantité doit être supérieur ou égale à {{ compared_value }} !')]
     private ?int $productQuantity = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: false)]
+    #[Assert\GreaterThan(0, message: 'La quantité requise doit être supérieur ou égale à {{ compared_value }} !')]
     private ?int $productQuantityRequired = null;
 
     #[ORM\ManyToOne]

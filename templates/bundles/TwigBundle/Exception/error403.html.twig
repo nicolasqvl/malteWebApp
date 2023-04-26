@@ -1,0 +1,9 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Accès restreint{% endblock %}
+
+{% block body %}
+    <div class="container d-flex justify-content-center align-items-center">
+        <img class="imgErrorForbidden"src="{{asset("build/images/403.svg")}}" alt="Illustration page 404">
+    </div>
+{% endblock %}

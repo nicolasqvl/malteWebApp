@@ -13,6 +13,11 @@ html, body{
     flex-grow: 1;
 }
 
+.btn:hover{
+    color: #d71E01;
+    background-color: white;
+}
+
 /* HOMEPAGE */
 .card-homepage{
     max-width: 20rem;
@@ -110,6 +115,11 @@ footer p {
 
 @media only screen and (min-width: 920px) {
 
+    .btn:hover{
+        color: white;
+        background-color: #d71E01;
+    }
+
     /* MENU NAVBAR STYLE */
     .link{
         background-color: rgb(0, 0, 0, 0.2);
@@ -130,12 +140,12 @@ footer p {
 
     /* 404 PAGE */
     .imgErrorNotFound{
-        max-width: 50%;
+        max-width: 40%;
     }
 
     /* 403 PAGE */
     .imgErrorForbidden{
-        max-width: 50%;
+        max-width: 40%;
     }
 
 

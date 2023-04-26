@@ -21,6 +21,9 @@
     <body>
         {{render(controller("App\\Controller\\MainController::menu"))}}
         {% block body %}{% endblock %}
+        {% block footer %}
+            {% include "parts/footer.html.twig" %}
+        {% endblock %}
     </body>
 </html>
 

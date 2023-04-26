@@ -1,14 +1,25 @@
 body {
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
 }
 
-html{
-    height: 100vh;
+html, body{
+    height: 100%;
+}
+
+.main{
+    flex-grow: 1;
+}
+
+/* HOMEPAGE */
+.card-homepage{
+    max-width: 20rem;
 }
 
 /* LOGIN PAGE */
-.form-signin {
+.form-signin{
     max-width: 400px;
     padding: 15px;
 }
@@ -81,6 +92,11 @@ html{
 .filtersCategories{
 
     text-align: center;
+}
+
+/* FOOTER */
+footer p {
+    font-size: 10px;
 }
 
 @media only screen and (min-width: 920px) {

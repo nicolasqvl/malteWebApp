@@ -49,7 +49,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
 
         // set qrcode
         $result = $this->builder
-            ->data('https://127.0.0.1:8000/detail/kit/'.$kitId)
+            ->data('https://nicolasqueval.com/detail/kit/'.$kitId)
             ->encoding(new Encoding('UTF-8'))
             ->errorCorrectionLevel(new ErrorCorrectionLevelHigh())
             ->size(400)
